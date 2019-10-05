@@ -1,0 +1,11 @@
+spring:
+    jpa:
+        hibernate:
+            ddl-auto: none
+
+logging:
+    level:
+        root: warn
+        com.huben: info
+    file: log/blog-pro.log
+

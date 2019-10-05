@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="_fragments :: head(~{::title})">
+  <title>标签</title>
+</head>
+<body>
+<!--导航栏-->
+<nav th:replace="_fragments :: nav(3)"></nav>
+
+<!--内容-->
+<div class="me-container-small me-padding-tb-big">
+  <div class="ui container">
+    <!--header-->
+    <div class="ui top attached segment">
+      <div class="ui meddle aligned two column grid">
+        <div class="column">
+          <h3 class="ui teal header">标签</h3>
+        </div>
+        <div class="column right aligned">
+          共 <h3 class="ui orange header me-inline-block" th:text="${#arrays.length(tagList)}"></h3> 个
+        </div>
+      </div>
+    </div>
+
+    <div class="ui attached segment me-padding-tb-large">
+      <a th:each="tag : ${tagList}" th:href="@{/tags/{id}(id=${tag.id})}"
+         class="ui basic left pointing label large me-margin-tb-tiny" th:classappend="${tag.id==activeTagId}?'teal'">
+        <span th:text="${tag.name}"></span>
+        <span class="detail" th:text="${#arrays.length(tag.blogList)}"></span>
+      </a>
+    </div>
+
+    <!--content-->
+    <div class="ui top attached teal segment">
+      <div class="ui padded vertical segment me-padding-tb-big me-mobile-lr-clear" th:each="blog : ${page.content}">
+        <div class="ui stackable mobile reversed grid">
+          <div class="eleven wide column">
+            <h3 class="ui header"><a class="me-black" target="_blank" th:href="@{/blog/{id}(id=${blog.id})}"
+                                     th:text="${blog.title}"></a></h3>
+            <p class="me-text" th:text="|${blog.description}...|"></p>
+            <div class="ui stackable grid">
+              <div class="row">
+                <div class="eleven wide column">
+                  <div class="ui small horizontal link list">
+                    <div class="item">
+                      <img class="ui avatar image" th:src="${blog.user.avatar}" alt="图片">
+                      <div class="content">
+                        <a href="/about" class="header" th:text="${blog.user.nickname}"></a>
+                      </div>
+                    </div>
+                    <div class="item">
+                      <i class="icon calendar alternate outline"></i> <span
+                      th:text="${#dates.format(blog.updateTime,'yyyy-MM-dd')}"></span>
+                    </div>
+                    <div class="item">
+                      <i class="icon eye"></i> <span th:text="${blog.views}"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="five wide column right aligned">
+                  <a th:href="@{/types/{id}(id= ${blog.type.id})}" target="_blank"
+                     class="ui teal basic label me-padding-tiny me-text-thin" th:text="${blog.type.name}"></a>
+                </div>
+              </div>
+              <div class="row">
+                <div class="column">
+                  <a th:each="tag : ${blog.tagList}" th:href="@{/tags/{id}(id= ${tag.id})}" th:text="${tag.name}"
+                     class="ui basic left pointing label me-padding-tb-mini me-text-thin"
+                     th:classappend="${tag.id==activeTagId}?'teal'">方法论</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="five wide column">
+            <a th:href="@{/blog/{id}(id=${blog.id})}" target="_blank">
+              <img class="ui rounded image" src="https://picsum.photos/800/450" alt="图片">
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--分页-->
+    <div class="ui bottom attached segment" th:if="${page.totalPages}>1">
+      <div class="ui middle aligned two column grid">
+        <div class="column">
+          <a href="#" class="ui teal basic button" th:href="@{/tags/{id}/(id=${activeTagId},page=${page.number}-1)}"
+             th:classappend="${page.first}?'disabled'">上一页</a>
+        </div>
+        <div class="column right aligned">
+          <a href="#" class="ui teal basic button" th:href="@{/tags/{id}/(id=${activeTagId},page=${page.number}+1)}"
+             th:classappend="${page.last}?'disabled'">下一页</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--底栏-->
+<footer th:replace="_fragments :: footer"></footer>
+
+<!--/*/<th:block th:replace="_fragments :: scripts">/*/-->
+<!--/*/</th:block>/*/-->
+
+<script>
+    $('#menu').click(function () {
+        $('.me-item').toggleClass('me-mobile-hide');
+    });
+</script>
+</body>
+</html>

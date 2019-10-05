@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="_fragments :: head(~{::title})">
+  <title>404</title>
+</head>
+<body>
+<!--导航栏-->
+<nav th:replace="_fragments :: nav(0)"></nav>
+
+<div class="me-container me-padding-tb-massive">
+  <div class="ui error message me-padding-tb-massive">
+    <div class="ui container">
+      <h2>404</h2>
+      <p>对不起, 您访问的资源不存在</p>
+    </div>
+  </div>
+</div>
+
+<div style="height: 240px;"></div>
+
+<!--底栏-->
+<footer th:replace="_fragments :: footer"></footer>
+
+<!--/*/<th:block th:replace="_fragments :: scripts">/*/-->
+<!--/*/</th:block>/*/-->
+
+<script>
+  $('#menu').click(function () {
+    $('.me-item').toggleClass('me-mobile-hide');
+  });
+
+</script>
+</body>
+</html>

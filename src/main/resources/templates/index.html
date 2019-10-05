@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="_fragments :: head(~{::title})">
+  <title>首页</title>
+</head>
+<body>
+<!--导航栏-->
+<nav th:replace="_fragments :: nav(1)" ></nav>
+
+<!--内容-->
+<div class="me-padding-tb-big me-container">
+  <div class="ui container">
+    <div class="ui stackable grid">
+      <!--左侧内容-->
+      <div class="eleven wide column">
+        <!--header-->
+        <div class="ui top attached segment">
+          <div class="ui meddle aligned two column grid">
+            <div class="column">
+              <h3 class="ui teal header">博客</h3>
+            </div>
+            <div class="column right aligned">
+              共 <h3 class="ui orange header me-inline-block" th:text="${page.totalElements}"></h3> 篇
+            </div>
+          </div>
+        </div>
+
+        <!--content-->
+        <div class="ui attached segment">
+          <div class="ui padded vertical segment me-padding-tb-big" th:each="blog: ${page.content}">
+            <div class="ui middle aligned stackable mobile reversed grid">
+              <div class="eleven wide column">
+                <h3 class="ui header"><a class="me-black" target="_blank" th:href="@{/blog/{id}(id=${blog.id})}" th:text="${blog.title}"></a></h3>
+                <p class="me-text" th:text="|${blog.description}...|"></p>
+                <div class="ui grid">
+                  <div class="eleven wide column">
+                    <div class="ui small horizontal link list">
+                      <div class="item">
+                        <img class="ui avatar image" th:src="${blog.user.avatar}" alt="图片">
+                        <div class="content">
+                          <a href="/about" class="header" th:text="${blog.user.nickname}"></a>
+                        </div>
+                      </div>
+                      <div class="item">
+                        <i class="icon calendar alternate outline"></i> <span th:text="${#dates.format(blog.updateTime,'yyyy-MM-dd')}"></span>
+                      </div>
+                      <div class="item">
+                        <i class="icon eye"></i> <span th:text="${blog.views}"></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="five wide column right aligned">
+                    <a href="#" target="_blank" class="ui teal basic label me-padding-tiny me-text-thin" th:text="${blog.type.name}"></a>
+                  </div>
+                </div>
+              </div>
+              <div class="five wide column">
+                <a th:href="@{/blog/{id}(id=${blog.id})}" target="_blank">
+                  <img class="ui rounded image" th:src="${blog.cover}" alt="图片">
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--分页-->
+        <div class="ui bottom attached segment" th:if="${page.totalPages}>1">
+          <div class="ui middle aligned two column grid">
+            <div class="column">
+              <a href="#" class="ui teal basic button" th:href="@{/(page=${page.number}-1)}" th:classappend="${page.first}?'disabled'">上一页</a>
+            </div>
+            <div class="column right aligned">
+              <a href="#" class="ui teal basic button" th:href="@{/(page=${page.number}+1)}" th:classappend="${page.last}?'disabled'">下一页</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--右侧卡片-->
+      <div class="five wide column">
+        <!--分类-->
+        <div class="ui segments">
+          <div class="ui secondary segment">
+            <div class="ui two column grid">
+              <div class="column">
+                <i class="icon idea"></i>分类
+              </div>
+              <div class="column right aligned">
+                <a href="/types" target="_blank">more <i class="icon angle double right"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="ui  segment">
+            <div class="ui fluid vertical menu">
+              <a  class="item" th:each="type : ${types}" th:href="@{/types/{id}(id=${type.id})}">
+                <span th:text="${type.name}"></span>
+                <div class="ui teal basic left pointing label" th:text="${#arrays.length(type.blogList)}"></div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!--标签-->
+        <div class="ui segments me-margin-top-large">
+          <div class="ui secondary segment">
+            <div class="ui two column grid">
+              <div class="column">
+                <i class="icon tags"></i>标签
+              </div>
+              <div class="column right aligned">
+                <a href="/tags" target="_blank">more <i class="icon angle double right"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="ui segment">
+            <a href="#" target="_blank" class="ui teal basic left pointing label me-margin-tb-tiny" th:each="tag : ${tags}">
+              <span th:text="${tag.name}"></span>
+              <span class="detail" th:text="${#arrays.length(tag.blogList)}"></span>
+            </a>
+          </div>
+        </div>
+
+        <!--最新推荐-->
+        <div class="ui segments me-margin-top-large">
+          <div class="ui secondary segment">
+            <i class="icon tags"></i>最新推荐
+          </div>
+
+          <div class="ui segment" >
+            <div class="ui fluid vertical menu" >
+              <a th:each="blog : ${recommendBlogs}" th:href="@{/blog/{id}(id=${blog.id})}" class="me-black item" target="_blank" th:text="${blog.title}"></a>
+            </div>
+          </div>
+        </div>
+
+        <!--关注-->
+        <h4 class="ui horizontal divider header me-margin-top-large">扫码关注我</h4>
+        <div class="ui card centered" style="width: 10em;">
+          <img src="" th:src="@{/images/wechat.jpg}" class="ui rounded image" alt="二维码">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--底栏-->
+<footer th:replace="_fragments :: footer"></footer>
+
+<!--/*/<th:block th:replace="_fragments :: scripts">/*/-->
+<!--/*/</th:block>/*/-->
+
+<script>
+  $('#menu').click(function () {
+    $('.me-item').toggleClass('me-mobile-hide');
+  });
+</script>
+</body>
+</html>

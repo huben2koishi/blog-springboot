@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="_fragments :: head(~{::title})">
+  <title>Error</title>
+</head>
+<body>
+<!--导航栏-->
+<nav th:replace="_fragments :: nav(1)"></nav>
+
+<div class="me-container me-padding-tb-massive">
+  <div class="ui error message me-padding-tb-massive">
+    <div class="ui container">
+      <h2>Error</h2>
+      <p th:utext="'Failed Request URL: ' + ${url}"></p>
+      <p th:utext="'Exception message: ' + ${exception.message}"></p>
+    </div>
+  </div>
+</div>
+
+<div>
+  <div th:utext="'&lt;!--'" th:remove="tag"></div>
+  <div th:utext="'Failed Request URL: ' + ${url}" th:remove="tag"></div>
+  <div th:utext="'Exception message: ' + ${exception.message}" th:remove="tag"></div>
+  <ul th:remove="tag">
+    <li th:each="st: ${exception.stackTrace}" th:remove="tag"><span th:utext="${st}" th:remove="tag"></span></li>
+  </ul>
+  <div th:utext="'--&gt;'" th:remove="tag"></div>
+</div>
+
+<div style="height: 240px;"></div>
+
+<!--底栏-->
+<footer th:replace="_fragments :: footer"></footer>
+
+<!--/*/<th:block th:replace="_fragments :: scripts">/*/-->
+<!--/*/</th:block>/*/-->
+
+<script>
+  $('#menu').click(function () {
+    $('.me-item').toggleClass('me-mobile-hide');
+  });
+
+</script>
+</body>
+</html>
