@@ -43,7 +43,7 @@ public class BlogController {
                         Model model) {
         model.addAttribute("types", typeService.listType());
         model.addAttribute("page", blogService.listBlog(pageable, blog));
-        return LIST;
+        return "admin/blogs";
     }
 
     @PostMapping("blogs/search")
@@ -58,7 +58,7 @@ public class BlogController {
     public String input(Model model) {
         setTypeAndTag(model);
         model.addAttribute("blog", new Blog());
-        return INPUT;
+        return "admin/blogs-input";
     }
 
     private void setTypeAndTag(Model model) {
@@ -73,7 +73,7 @@ public class BlogController {
         Blog blog = blogService.getBlog(id);
         blog.init();
         model.addAttribute("blog", blog);
-        return INPUT;
+        return "admin/blogs-input";
     }
 
 
@@ -94,7 +94,7 @@ public class BlogController {
         } else {
             attributes.addFlashAttribute("message", "操作成功");
         }
-        return REDIRECT_LIST;
+        return "redirect:/admin/blogs";
     }
 
 
@@ -102,6 +102,6 @@ public class BlogController {
     public String delete(@PathVariable Long id, RedirectAttributes attributes) {
         blogService.deleteBlog(id);
         attributes.addFlashAttribute("message", "删除成功");
-        return REDIRECT_LIST;
+        return "redirect:/admin/blogs";
     }
 }

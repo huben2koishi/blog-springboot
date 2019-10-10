@@ -1,6 +1,5 @@
 package com.huben.blog.web;
 
-import com.huben.blog.entity.BlogQuery;
 import com.huben.blog.entity.Tag;
 import com.huben.blog.service.BlogService;
 import com.huben.blog.service.TagService;
@@ -32,7 +31,7 @@ public class TagShowController {
 
     @GetMapping("/tags/{id}")
     public String tags(@PathVariable Long id,
-                        @PageableDefault(size = 3, sort = {"updateTime"}, direction = Sort.Direction.DESC) Pageable pageable,
+                        @PageableDefault(size = 8, sort = {"updateTime"}, direction = Sort.Direction.DESC) Pageable pageable,
                         Model model) {
         List<Tag> tagList = tagService.listTagTop(10000);
 
