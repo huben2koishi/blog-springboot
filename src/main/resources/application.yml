@@ -1,13 +1,13 @@
 spring:
     datasource:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://localhost:3306/blog
+        url: jdbc:mysql://localhost:3306/blog?serverTimezone=UTC&amp8
     thymeleaf:
         mode: HTML
     profiles:
         active: dev
     jpa:
-        database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+        database-platform: org.hibernate.dialect.MySQL8Dialect
         show-sql: true
 server:
     port: 80

@@ -53,7 +53,7 @@
           </div>
           <div class="five wide column">
             <a th:href="@{/blog/{id}(id=${blog.id})}" target="_blank">
-              <img class="ui rounded image" src="https://picsum.photos/800/450" alt="图片">
+              <img class="ui rounded image" th:src="${blog.cover}" alt="图片">
             </a>
           </div>
         </div>
